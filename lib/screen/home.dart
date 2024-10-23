@@ -13,9 +13,11 @@ class HomeScreen extends StatelessWidget {
       backgroundColor: appGoldColor,
       appBar: AppBar(
           backgroundColor: Colors.black,
-          title: Text(
-            'Student List',
-            style: TextStyle(color: Colors.white),
+          title: Center(
+            child: Text(
+              'Student List',
+              style: TextStyle(color: Colors.white, fontSize: 18),
+            ),
           )),
       body: StudentList(studentService: _studentService),
       floatingActionButton: FloatingActionButton(
