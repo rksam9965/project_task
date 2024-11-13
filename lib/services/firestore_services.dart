@@ -6,15 +6,14 @@ class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   String? currentUserId2 = FirebaseAuth.instance.currentUser?.uid;
 
-
   String get currentUserId {
-    return _auth.currentUser?.uid ?? ''; // Get the UID of the current authenticated user
+    return _auth.currentUser?.uid ??
+        ''; // Get the UID of the current authenticated user
   }
 
   // Add or update item in the cart
   Future<void> addOrUpdateCart(String title, String description, String id,
       String price, String category, int cartQuantity) async {
-
     try {
       CollectionReference userEntries = _firestore
           .collection('users')
@@ -22,9 +21,8 @@ class FirestoreService {
           .collection('add_cart');
 
       // Check if the product already exists in the cart
-      QuerySnapshot existingCartItem = await userEntries
-          .where('id', isEqualTo: id)
-          .get();
+      QuerySnapshot existingCartItem =
+          await userEntries.where('id', isEqualTo: id).get();
 
       if (existingCartItem.docs.isNotEmpty) {
         // If item exists, update the quantity
@@ -48,11 +46,6 @@ class FirestoreService {
     }
   }
 
-
-
-
-
-
   Future<void> placedOrder(String title, String description, String id,
       String price, String category, int cartQuantity) async {
     try {
@@ -62,9 +55,8 @@ class FirestoreService {
           .collection('add_cart');
 
       // Check if the product already exists in the cart
-      QuerySnapshot existingCartItem = await userEntries
-          .where('id', isEqualTo: id)
-          .get();
+      QuerySnapshot existingCartItem =
+          await userEntries.where('id', isEqualTo: id).get();
 
       if (existingCartItem.docs.isNotEmpty) {
         // If item exists, update the quantity
@@ -104,30 +96,6 @@ class FirestoreService {
     }
   }
 
-  // Fetch cart items
-  // Future<List<Map<String, dynamic>>> fetchCartItems() async {
-  //   try {
-  //     QuerySnapshot snapshot = await _firestore
-  //         .collection('users')
-  //         .doc(currentUserId)
-  //         .collection('orders')
-  //         .get();
-  //
-  //     return snapshot.docs.map((doc) {
-  //       return {
-  //         'id': doc.id,
-  //         'title': doc['title'],
-  //         'description': doc['description'],
-  //         'price': doc['price'],
-  //         'category': doc['category'],
-  //         'addCartQty': doc['addCartQty'],
-  //       };
-  //     }).toList();
-  //   } catch (e) {
-  //     print('Error fetching cart items: $e');
-  //     return [];
-  //   }
-  // }
 
   // Place the order (after checking out)
   Future<void> placeOrder() async {
@@ -154,7 +122,6 @@ class FirestoreService {
 
       // Optionally, clear the cart after placing the order
       await clearCart();
-
     } catch (e) {
       print('Error placing the order: $e');
     }
@@ -206,6 +173,12 @@ class FirestoreService {
   // Fetch cart items
   Future<List<Map<String, dynamic>>> fetchCartItems() async {
     try {
+      String? currentUserId = FirebaseAuth.instance.currentUser?.uid;
+      if (currentUserId == null) {
+        print("User not signed in.");
+        return [];
+      }
+
       QuerySnapshot snapshot = await _firestore
           .collection('users')
           .doc(currentUserId)
@@ -214,6 +187,7 @@ class FirestoreService {
 
       if (snapshot.docs.isEmpty) {
         print('No cart items found.');
+        return [];
       } else {
         snapshot.docs.forEach((doc) {
           print(doc.data());
@@ -222,13 +196,20 @@ class FirestoreService {
 
       return snapshot.docs.map((doc) {
         return {
-          'id': doc['id'],  // Ensure the field exists in Firestore documents
-          'title': doc['title'],
-          'description': doc['description'],
-          'price': doc['price'],
-          'category': doc['category'],
-          'addCartQty': doc['addCartQty'],
-          'created_at': doc['created_at'],
+          'id': doc['id'] ??
+              '', // Ensure the field exists, default to empty string
+          'title': doc['title'] ??
+              'No title', // Ensure the field exists, default to 'No title'
+          'description': doc['description'] ??
+              '', // Ensure the field exists, default to empty string
+          'price': doc['price'] ?? 0, // Ensure the field exists, default to 0
+          'category': doc['category'] ??
+              '', // Ensure the field exists, default to empty string
+          'addCartQty':
+              doc['addCartQty'] ?? 1, // Ensure the field exists, default to 1
+          // 'created_at': doc['created_at'] != null
+          //     ? (doc['created_at'] as Timestamp).toDate()
+          //     : DateTime.now(),  // If 'created_at' is null, use the current time
         };
       }).toList();
     } catch (e) {
@@ -237,13 +218,5 @@ class FirestoreService {
     }
   }
 
-
-
 // Fetch cart items
-
-
-
-
-
-
 }

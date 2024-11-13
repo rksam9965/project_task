@@ -150,7 +150,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     try {
       await _firestoreService.placeOrder();
       setState(() {
-        cartQuantity = 0;
+        // cartQuantity = 0;
         _entriesFutureCart = _firestoreService.fetchCartItems();
       });
       _showMessage('Order placed successfully!');

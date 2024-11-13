@@ -45,23 +45,46 @@ class SignInPageState extends State<SignInPage> {
     );
   }
 
-  validateSignIn() {
-    if (textFieldsKey.currentState?.email.text == '') {
-      displayAlert(context, GlobalKey(), 'Please enter a email');
-      if (textFieldsKey.currentState?.password.text == '') {
-        displayAlert(context, GlobalKey(), 'Please enter a password');
-      }else {
-        submitSignInData();
-      }
-    }else{
-      submitSignInData();
-
+  void validateSignIn() {
+    // Check if email is empty
+    if (textFieldsKey.currentState?.email.text.isEmpty ?? true) {
+      displayAlert(context, GlobalKey(), 'Please enter an email');
+      return;
     }
+
+    // Check if email format is valid
+    if (!_isValidEmail(textFieldsKey.currentState!.email.text)) {
+      displayAlert(context, GlobalKey(), 'Please enter a valid email');
+      return;
+    }
+
+    // Check if password is empty
+    if (textFieldsKey.currentState?.password.text.isEmpty ?? true) {
+      displayAlert(context, GlobalKey(), 'Please enter a password');
+      return;
+    }
+
+    // Check if password is at least 6 characters long
+    if (textFieldsKey.currentState!.password.text.length < 6) {
+      displayAlert(context, GlobalKey(), 'Password should be at least 6 characters');
+      return;
+    }
+
+    // Proceed with sign-in if all validations pass
+    submitSignInData();
   }
+
+// Helper method to validate email format
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    return emailRegex.hasMatch(email);
+  }
+
 
   String? username;
   String? profileLink;
   String? localId;
+
 
 
 
@@ -71,11 +94,22 @@ class SignInPageState extends State<SignInPage> {
         textFieldsKey.currentState!.email.text.isNotEmpty &&
         textFieldsKey.currentState!.password.text.isNotEmpty) {
 
+      // setState(() {
+      //   _isLoading = true;
+      // });
+      displayProgress(context); // Show progress
+
       String email = textFieldsKey.currentState!.email.text;
       String password = textFieldsKey.currentState!.password.text;
 
       // Attempt sign-in
       User? user = await _authService.signInUser(email, password);
+
+      // setState(() {
+      //   _isLoading = false;
+      // });
+      hideProgress(context); // Hide progress after completion
+
       if (user != null) {
         Navigator.push(
           context,
@@ -89,7 +123,6 @@ class SignInPageState extends State<SignInPage> {
         );
       }
     } else {
-      // Handle the case where email or password might be empty or null
       displayAlert(
         context,
         GlobalKey(),
@@ -97,6 +130,7 @@ class SignInPageState extends State<SignInPage> {
       );
     }
   }
+
 
 
   // Navigator.push(

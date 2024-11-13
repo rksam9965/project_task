@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../services/auth_screen.dart';
 import '../../utils/colors.dart';
+import '../../utils/custom_alert.dart';
 import '../../widgets/TextField.dart';
 
 
@@ -32,18 +33,50 @@ class _RegisterFormState extends State<RegisterForm> {
   Future<void> _signUp() async {
     String email = _emailController.text.toString();
     String password = _passwordController.text.toString();
-    // String role = 'users'; // Example role input: "viewer" or "editor"
-    // String username = 'test';
+
+    // Validate email and password
+    if (!_isValidEmail(email)) {
+      _showSnackBar("Please enter a valid email address.");
+      return;
+    }
+
+    if (password.length < 6) {
+      _showSnackBar("Password should be at least 6 characters.");
+      return;
+    }
+
+    // Show progress indicator
+    displayProgress(context);
 
     // Register the user
     User? user = await _authService.registerUser(email, password);
+
+    // Hide progress indicator
+    hideProgress(context);
+
     if (user != null) {
-      // Show success dialog
-      _showSuccessDialog();
+      Navigator.pop(context);
+      // Show success dialog or navigate to another screen
+      // _showSuccessDialog();
     } else {
       _showErrorDialog("Registration failed");
     }
   }
+
+// Helper method to validate email format
+  bool _isValidEmail(String email) {
+    final emailRegex = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    return emailRegex.hasMatch(email);
+  }
+
+// Method to show SnackBar with a message
+  void _showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+
 
   @override
   Widget build(BuildContext context) {
