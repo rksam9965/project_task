@@ -96,7 +96,6 @@ class FirestoreService {
     }
   }
 
-
   // Place the order (after checking out)
   Future<void> placeOrder() async {
     try {
@@ -207,9 +206,6 @@ class FirestoreService {
               '', // Ensure the field exists, default to empty string
           'addCartQty':
               doc['addCartQty'] ?? 1, // Ensure the field exists, default to 1
-          // 'created_at': doc['created_at'] != null
-          //     ? (doc['created_at'] as Timestamp).toDate()
-          //     : DateTime.now(),  // If 'created_at' is null, use the current time
         };
       }).toList();
     } catch (e) {

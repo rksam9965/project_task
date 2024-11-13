@@ -9,7 +9,8 @@ class AuthService {
   // Register new user and add user-specific data
   Future<User?> registerUser(String email, String password) async {
     try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
@@ -71,7 +72,8 @@ class AuthService {
 
   // Get user profile data (like username, age, etc.)
   Future<Map<String, dynamic>> getUserProfile(String uid) async {
-    DocumentSnapshot doc = await _firestore.collection('userProfiles').doc(uid).get();
+    DocumentSnapshot doc =
+        await _firestore.collection('userProfiles').doc(uid).get();
     if (doc.exists) {
       return doc.data() as Map<String, dynamic>;
     }
@@ -97,6 +99,7 @@ class AuthService {
     await _auth.signOut();
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('valid_user', false); // Set valid_user to false on logout
+    await prefs.setBool(
+        'valid_user', false); // Set valid_user to false on logout
   }
 }

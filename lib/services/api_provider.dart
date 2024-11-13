@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'dart:async';
 
 class ApiProvider {
-
   Future<dynamic> get(String url) async {
     print('GET URL = ' + baseUrl + url);
     var responseJson;
@@ -32,15 +31,12 @@ class ApiProvider {
       case 400:
         throw BadRequestException(response.body.toString());
       case 401:
-
       case 403:
         throw UnauthorisedException(response.body.toString());
       case 500:
-
       default:
         throw FetchDataException(
             'Error occured while Communication with Server with StatusCode : ${response.statusCode}');
     }
   }
 }
-

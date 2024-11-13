@@ -14,7 +14,6 @@ class _AddCartState extends State<AddCart> {
   @override
   void initState() {
     super.initState();
-    // Initialize ordersFuture with the cart items future
     ordersFuture = fetchCartItems();
   }
 
@@ -43,15 +42,17 @@ class _AddCartState extends State<AddCart> {
       return snapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         return {
-          'id': data['id'] ?? '',                      // Ensure 'id' exists
-          'title': data['title'] ?? 'No title',        // Ensure 'title' exists
-          'description': data['description'] ?? '',    // Ensure 'description' exists
-          'price': data['price'] ?? 0,                 // Ensure 'price' exists
-          'category': data['category'] ?? '',          // Ensure 'category' exists
-          'addCartQty': data['addCartQty'] ?? 1,       // Ensure 'addCartQty' exists
+          'id': data['id'] ?? '', // Ensure 'id' exists
+          'title': data['title'] ?? 'No title', // Ensure 'title' exists
+          'description':
+              data['description'] ?? '', // Ensure 'description' exists
+          'price': data['price'] ?? 0, // Ensure 'price' exists
+          'category': data['category'] ?? '', // Ensure 'category' exists
+          'addCartQty': data['addCartQty'] ?? 1, // Ensure 'addCartQty' exists
           'created_at': data['created_at'] != null
               ? (data['created_at'] as Timestamp).toDate()
-              : DateTime.now(),                       // Ensure 'created_at' exists and convert Timestamp
+              : DateTime
+                  .now(), // Ensure 'created_at' exists and convert Timestamp
         };
       }).toList();
     } catch (e) {
@@ -66,7 +67,8 @@ class _AddCartState extends State<AddCart> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("Add Cart Details", style: TextStyle(fontSize: 18, color: Colors.black)),
+        title: const Text("Add Cart Details",
+            style: TextStyle(fontSize: 18, color: Colors.black)),
         iconTheme: IconThemeData(color: Colors.black),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
@@ -96,10 +98,14 @@ class _AddCartState extends State<AddCart> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text('Order Id: ${order['id']}', style: TextStyle(color: Colors.black)),
-                      Text('Price: \$${order['price']}', style: TextStyle(color: Colors.black)),
-                      Text('Category: ${order['category']}', style: TextStyle(color: Colors.black)),
-                      Text('Quantity: ${order['addCartQty']}', style: TextStyle(color: Colors.black)),
+                      Text('Order Id: ${order['id']}',
+                          style: TextStyle(color: Colors.black)),
+                      Text('Price: \$${order['price']}',
+                          style: TextStyle(color: Colors.black)),
+                      Text('Category: ${order['category']}',
+                          style: TextStyle(color: Colors.black)),
+                      Text('Quantity: ${order['addCartQty']}',
+                          style: TextStyle(color: Colors.black)),
                       Text(
                         'Total Price: \$${(double.parse(order['addCartQty'].toString()) * double.parse(order['price'].toString())).toString()}',
                         style: TextStyle(color: Colors.black),

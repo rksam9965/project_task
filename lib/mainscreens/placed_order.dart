@@ -23,8 +23,10 @@ class _PlacedOrderState extends State<PlacedOrder> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
-
-        title: const Text("Placed Orders",style:TextStyle(fontSize: 18),),
+        title: const Text(
+          "Placed Orders",
+          style: TextStyle(fontSize: 18),
+        ),
       ),
       body: FutureBuilder<List<Map<String, dynamic>>>(
         future: ordersFuture,
@@ -54,12 +56,22 @@ class _PlacedOrderState extends State<PlacedOrder> {
                   subtitle: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Order Id: ${order['order_id']}',style: TextStyle(color: Colors.white),),
-                      Text('Status: ${order['status']}',style: TextStyle(color: Colors.white),),
                       Text(
-                        'Date: ${DateFormat('dd/MM/yyyy').format(order['order_date'].toDate())}',style: TextStyle(color: Colors.white),
+                        'Order Id: ${order['order_id']}',
+                        style: TextStyle(color: Colors.white),
                       ),
-                      Text('Items: ${order['items'].length} item(s)',style: TextStyle(color: Colors.white),),
+                      Text(
+                        'Status: ${order['status']}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'Date: ${DateFormat('dd/MM/yyyy').format(order['order_date'].toDate())}',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      Text(
+                        'Items: ${order['items'].length} item(s)',
+                        style: TextStyle(color: Colors.white),
+                      ),
                     ],
                   ),
                   isThreeLine: true,

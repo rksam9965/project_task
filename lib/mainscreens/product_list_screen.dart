@@ -13,7 +13,8 @@ class ProductScreen extends StatefulWidget {
 class _ProductScreenState extends State<ProductScreen> {
   bool _isLoading = true;
   ProductList? products;
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();  // Use the scaffoldKey
+  final GlobalKey<ScaffoldState> scaffoldKey =
+      GlobalKey<ScaffoldState>(); // Use the scaffoldKey
 
   int Count = 0;
 
@@ -46,7 +47,7 @@ class _ProductScreenState extends State<ProductScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,  // Assign the scaffoldKey to the Scaffold
+      key: scaffoldKey, // Assign the scaffoldKey to the Scaffold
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
@@ -63,7 +64,7 @@ class _ProductScreenState extends State<ProductScreen> {
           },
         ),
       ),
-      drawer: HomeMenuList(),  // The drawer is assigned correctly here
+      drawer: HomeMenuList(), // The drawer is assigned correctly here
       body: ListView.builder(
         itemCount: products?.products!.length,
         itemBuilder: (context, index) {
@@ -97,11 +98,12 @@ class _ProductScreenState extends State<ProductScreen> {
                 }
               },
               child: Container(
-                padding: EdgeInsets.only(left: 16),  // Optional padding to give the content space
+                padding: EdgeInsets.only(
+                    left: 16), // Optional padding to give the content space
                 child: Row(
                   children: [
-                    const Icon(Icons.shopping_cart),  // Example icon
-                    SizedBox(width: 10),  // Space between icon and text
+                    const Icon(Icons.shopping_cart), // Example icon
+                    SizedBox(width: 10), // Space between icon and text
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,14 +113,18 @@ class _ProductScreenState extends State<ProductScreen> {
                             product?.title ?? 'No Title',
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
-                              fontSize: 12,  // Adjusted font size
+                              fontSize: 12, // Adjusted font size
                             ),
-                            overflow: TextOverflow.ellipsis,  // Add ellipsis for overflow
-                            maxLines: 1,  // Ensure the title does not wrap to multiple lines
+                            overflow: TextOverflow
+                                .ellipsis, // Add ellipsis for overflow
+                            maxLines:
+                                1, // Ensure the title does not wrap to multiple lines
                           ),
                           Text(
                             '\$${product?.price}',
-                            style: TextStyle(fontSize: 12),  // Adjust price font size as needed
+                            style: TextStyle(
+                                fontSize:
+                                    12), // Adjust price font size as needed
                           ),
                         ],
                       ),

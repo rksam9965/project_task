@@ -46,13 +46,8 @@ class _SplashScreenState extends State<SplashScreen>
       });
     }
 
-    // Navigator.of(context).pushReplacement(MaterialPageRoute(
-    //   builder: (context) => boolValue1 == true ? SignInPage() : BottomNavigation(),
-    // ));
-
-    // Navigate to the appropriate page based on the user's authentication status
-    Navigator.of(context)
-        .pushReplacement(MaterialPageRoute(builder: (context) => const SignInPage()));
+    Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => const SignInPage()));
   }
 
   @override

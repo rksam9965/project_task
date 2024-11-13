@@ -6,7 +6,6 @@ import '../../utils/colors.dart';
 import '../../utils/custom_alert.dart';
 import '../../widgets/TextField.dart';
 
-
 class RegisterForm extends StatefulWidget {
   final bool? tech;
   final bool? update;
@@ -34,7 +33,6 @@ class _RegisterFormState extends State<RegisterForm> {
     String email = _emailController.text.toString();
     String password = _passwordController.text.toString();
 
-    // Validate email and password
     if (!_isValidEmail(email)) {
       _showSnackBar("Please enter a valid email address.");
       return;
@@ -65,7 +63,8 @@ class _RegisterFormState extends State<RegisterForm> {
 
 // Helper method to validate email format
   bool _isValidEmail(String email) {
-    final emailRegex = RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
+    final emailRegex =
+        RegExp(r"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$");
     return emailRegex.hasMatch(email);
   }
 
@@ -75,8 +74,6 @@ class _RegisterFormState extends State<RegisterForm> {
       SnackBar(content: Text(message)),
     );
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -118,8 +115,6 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-
-
   Widget _buildRegisterButton(double screenWidth) {
     return GestureDetector(
       onTap: _signUp,
@@ -154,7 +149,7 @@ class _RegisterFormState extends State<RegisterForm> {
             TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pop(context);  // Close the dialog
+                Navigator.pop(context); // Close the dialog
               },
               child: Text('OK'),
             ),
@@ -174,7 +169,7 @@ class _RegisterFormState extends State<RegisterForm> {
           actions: <Widget>[
             TextButton(
               onPressed: () {
-                Navigator.pop(context);  // Close the dialog
+                Navigator.pop(context); // Close the dialog
               },
               child: Text('OK'),
             ),

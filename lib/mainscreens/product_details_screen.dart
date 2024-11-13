@@ -7,7 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../services/firestore_services.dart';
 import '../utils/colors.dart';
 import '../utils/custom_alert.dart';
-import '../../models/product.dart';  // Add this import
+import '../../models/product.dart'; // Add this import
 
 class ProductDetailScreen extends StatefulWidget {
   final Product product;
@@ -21,7 +21,7 @@ class ProductDetailScreen extends StatefulWidget {
 class _ProductDetailScreenState extends State<ProductDetailScreen> {
   bool isFilled = false;
   int cartQuantity = 0;
-  double productRating = 3.0;  // Default rating is 3
+  double productRating = 3.0; // Default rating is 3
   final FirestoreService _firestoreService = FirestoreService();
   late Future<List<Map<String, dynamic>>> _entriesFutureCart;
   int update = 0;
@@ -50,12 +50,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           .doc(currentUserId)
           .collection('add_cart');
 
-      QuerySnapshot existingCartItemSnapshot = await userCart
-          .where('id', isEqualTo: productId)
-          .get();
+      QuerySnapshot existingCartItemSnapshot =
+          await userCart.where('id', isEqualTo: productId).get();
 
       if (existingCartItemSnapshot.docs.isNotEmpty) {
-        int fetchedQuantity = existingCartItemSnapshot.docs.first['addCartQty'] ?? 0;
+        int fetchedQuantity =
+            existingCartItemSnapshot.docs.first['addCartQty'] ?? 0;
         setState(() {
           update = fetchedQuantity;
           cartQuantity = fetchedQuantity;
@@ -105,7 +105,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
         if (snapshot.exists) {
           int currentQuantity = snapshot['addCartQty'] ?? 0;
-          int newQuantity = increment ? currentQuantity + 1 : currentQuantity - 1;
+          int newQuantity =
+              increment ? currentQuantity + 1 : currentQuantity - 1;
 
           if (newQuantity > 0) {
             transaction.update(cartItemRef, {'addCartQty': newQuantity});
@@ -145,7 +146,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
-
   void placeOrder() async {
     try {
       await _firestoreService.placeOrder();
@@ -161,7 +161,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void _showMessage(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(message)));
+    ScaffoldMessenger.of(context)
+        .showSnackBar(SnackBar(content: Text(message)));
   }
 
   @override
@@ -262,11 +263,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               tag: widget.product.id.toString(),
               child: widget.product.image != null
                   ? Image.network(
-                widget.product.image!,
-                height: 200,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              )
+                      widget.product.image!,
+                      height: 200,
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    )
                   : Container(),
             ),
             Container(
@@ -278,7 +279,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   children: [
                     Text(
                       widget.product.title ?? 'No Title',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                     ),
                     SizedBox(height: 10),
                     Text(
@@ -288,7 +290,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     SizedBox(height: 10),
                     Text(
                       'Price: \$${widget.product.price ?? 'N/A'}',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                     ),
                     SizedBox(height: 20),
                     Row(
@@ -311,7 +314,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                             });
                           },
                         ),
-                        SizedBox(width: screenWidth *0.16,),
+                        SizedBox(
+                          width: screenWidth * 0.16,
+                        ),
                         IconButton(
                           onPressed: () {
                             if (cartQuantity > 0) {
@@ -322,7 +327,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                         ),
                         Text(
                           '$cartQuantity',
-                          style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                         IconButton(
                           onPressed: () {
@@ -335,7 +341,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                     // Rating Bar
 
                     SizedBox(height: 20),
-
                   ],
                 ),
               ),
