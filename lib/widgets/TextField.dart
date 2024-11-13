@@ -1,10 +1,10 @@
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../utils/colors.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomTextField extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final InputDecoration? decoration;
@@ -56,10 +56,6 @@ class CustomTextField extends StatefulWidget {
   final String? restorationId;
   final String? lable;
   Color? filledColor;
-  bool? commentText;
-  bool? icon;
-  bool? editable;
-  bool? display;
 
   CustomTextField({
     Key? key,
@@ -114,76 +110,50 @@ class CustomTextField extends StatefulWidget {
     this.lable,
     this.borderColor,
     this.filledColor,
-    this.commentText,
-    this.icon,
-    this.editable,
-    this.display,
   }) : super(key: key);
 
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
-}
-
-class _CustomTextFieldState extends State<CustomTextField> {
-  @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        TextFormField(
-          // readOnly: true,
-          readOnly: widget.display == true ? true : false,
-          enabled:
-              widget.editable, // Controls whether the TextField is editable
-          focusNode: widget.focusNode, // Attach the FocusNode to the TextField
-          // cursorColor: ,
-          onChanged: (value) {},
-          controller: widget.controller,
-          autocorrect: false,
-          textInputAction: TextInputAction.done,
-          style: const TextStyle(
-            color: Colors.black,
-            fontWeight: FontWeight.w500,
-          ),
-          maxLines: widget.maxLines,
-          decoration: InputDecoration(
-            filled: false,
-            fillColor: Colors.transparent,
-            border: InputBorder.none,
-            labelText: widget.lable,
-            contentPadding:
-                const EdgeInsets.only(left: 24, top: 10, bottom: 20, right: 24),
-            labelStyle: const TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w300,
-                fontSize: 13 // Color of the label text
-                ), // Padding inside the text field
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(
-                color: Colors.black,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(5),
-              borderSide: const BorderSide(
-                color: Colors.black,
-              ),
-            ),
+    return TextFormField(
+      focusNode: focusNode, // Attach the FocusNode to the TextField
+      cursorColor: textFieldTypeTextColor,
+      onChanged: (value) {},
+      controller: controller,
+      autocorrect: false,
+      textInputAction: TextInputAction.done,
+      style: TextStyle(
+        color: textFieldTypeTextColor,
+        fontWeight: FontWeight.w500,
+      ),
+      maxLines: maxLines,
+      decoration: InputDecoration(
+        filled: true,
+        fillColor: textFieldColorFilled,
+        border: InputBorder.none,
+        labelText: lable,
+        contentPadding: const EdgeInsets.only(
+            left: 24,
+            top: 50,
+            bottom: 20,
+            right: 24), // Padding inside the text field
+        labelStyle: TextStyle(
+            color: textFieldTypeTextColor,
+            fontWeight: FontWeight.w300,
+            fontSize: 14 // Color of the label text
+            ), // Padding inside the text field
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
+            color: Colors.transparent,
           ),
         ),
-        Visibility(
-          visible: widget.icon == true ? true : false,
-          child: Align(
-            alignment: Alignment.centerRight,
-            child: Container(
-              child: IconButton(
-                  icon:
-                      Icon(widget.editable == true ? Icons.edit : Icons.check),
-                  onPressed: () {}),
-            ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
+            color: Colors.transparent,
           ),
-        )
-      ],
+        ),
+      ),
     );
   }
 }
